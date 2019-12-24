@@ -3,13 +3,25 @@ package com.netcracker.discovery.model;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 import lombok.ToString;
+import org.hibernate.annotations.GenericGenerator;
 
+import javax.persistence.*;
 import java.util.UUID;
 
+@Entity
+@Table(name = "node")
 @Data
 @NoArgsConstructor
 @ToString
 public class Node {
+
+    @Id
+    @GeneratedValue(generator = "UUID")
+    @GenericGenerator(
+            name = "UUID",
+            strategy = "org.hibernate.id.UUIDGenerator"
+    )
+    @Column(name = "id", updatable = false, nullable = false)
     private UUID id;
 
     private String address;
@@ -19,12 +31,4 @@ public class Node {
     private String brokerAddress;
 
     private String brokerPort;
-
-    public Node(String address, String port, String brokerAddress, String brokerPort) {
-        this.id = UUID.randomUUID();
-        this.address = address;
-        this.port = port;
-        this.brokerAddress = brokerAddress;
-        this.brokerPort = brokerPort;
-    }
 }
